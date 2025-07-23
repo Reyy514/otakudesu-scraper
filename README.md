@@ -1,4 +1,4 @@
-# 🎌 Otakudesu Scraper v2.0 - Pengalaman Nonton Anime Terbaik di Terminal Anda
+# 🎌 Otakudesu Scraper - Pengalaman Nonton Anime Terbaik di Terminal Anda
 
 Selamat datang di **Otakudesu Scraper**, sebuah aplikasi *command-line* yang dirancang untuk memberikan pengalaman terbaik dalam mencari, menjelajahi, dan mendapatkan link unduhan anime favorit Anda langsung dari situs Otakudesu. Dibangun dari awal dengan Python dan dipercantik menggunakan pustaka `rich`, aplikasi ini mengubah terminal Anda menjadi sebuah portal anime yang modern, cepat, dan fungsional.
 
@@ -6,19 +6,18 @@ Lupakan browser, lupakan iklan. Fokus hanya pada anime yang ingin Anda tonton.
 
 ---
 
-### ✨ Tampilan Antarmuka yang Modern & Indah
-
-Aplikasi ini tidak hanya fungsional, tetapi juga memanjakan mata. Dengan tata letak yang rapi, ikon emoji, dan skema warna yang konsisten, berinteraksi dengan aplikasi ini menjadi sebuah pengalaman yang menyenangkan.
-
----
-
 ## 🚀 Fitur Unggulan
 
 Aplikasi ini dikemas dengan berbagai fitur untuk memenuhi semua kebutuhan Anda:
 
-### Fitur Inti
+### Fitur Penjelajahan
 - **🔍 Pencarian Cepat:** Temukan anime apa pun berdasarkan judul dengan hasil yang instan.
-- **📺 Penjelajahan Mudah:** Jelajahi daftar anime *Ongoing* dan *Completed* dengan sistem paginasi yang praktis.
+- **📺 Daftar Anime Ongoing & Completed:** Selalu update dengan anime terbaru atau cari tontonan yang sudah tamat.
+- **🗓️ Jadwal Rilis:** Lihat jadwal rilis anime mingguan yang dikelompokkan berdasarkan hari, sehingga Anda tidak akan ketinggalan episode baru.
+- **🎭 Jelajahi Berdasarkan Genre:** Temukan anime baru dengan menjelajahi daftar lengkap genre yang tersedia.
+- **🗂️ Daftar Lengkap A-Z:** Jelajahi ribuan judul anime yang diurutkan berdasarkan abjad.
+
+### Fitur Fungsional
 - **📖 Detail Komprehensif:** Dapatkan semua informasi yang Anda butuhkan—mulai dari sinopsis, genre, studio, hingga skor—dalam satu tampilan yang terorganisir.
 - **⭐ Manajemen Favorit:** Buat daftar pantauan pribadi Anda. Tambah, lihat, dan hapus anime dari favorit dengan mudah.
 - **🧠 Cache Cerdas:** Aplikasi secara otomatis menyimpan data yang sudah diakses, membuat penjelajahan berikutnya menjadi super cepat dan mengurangi beban jaringan.
@@ -39,12 +38,12 @@ Memulai aplikasi ini sangat mudah. Cukup ikuti langkah-langkah berikut:
 
 **1. Persiapan Awal**
    - Pastikan Anda memiliki **Python 3.11** atau versi yang lebih baru.
-   - Clone repositori ini atau unduh semua file ke dalam satu folder bernama `otakudesu_scraper`.
+   - Clone repositori ini atau unduh semua file ke dalam satu folder bernama `otakudesu-scraper`.
 
 **2. Instalasi Dependensi**
    Buka terminal Anda, masuk ke direktori `otakudesu-scraper`, dan jalankan perintah berikut untuk menginstal semua pustaka yang dibutuhkan:
    ```bash
-   pip install rich requests beautifulsoup4 lxml regex
+   pip install rich requests bs4 lxml re
    ```
 
 **3. Jalankan Aplikasi**
@@ -61,7 +60,7 @@ Memulai aplikasi ini sangat mudah. Cukup ikuti langkah-langkah berikut:
 Kode diatur secara modular untuk kemudahan pemeliharaan dan pengembangan di masa depan.
 
 ```
-otakudesu_scraper/
+otakudesu-scraper/
 ├── data/
 │   └── cache.json         # File cache untuk menyimpan data
 ├── exports/               # Folder untuk menyimpan hasil ekspor
