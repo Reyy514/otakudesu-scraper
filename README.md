@@ -43,7 +43,7 @@ Memulai aplikasi ini sangat mudah. Cukup ikuti langkah-langkah berikut:
 **2. Instalasi Dependensi**
    Buka terminal Anda, masuk ke direktori `otakudesu-scraper`, dan jalankan perintah berikut untuk menginstal semua pustaka yang dibutuhkan:
    ```bash
-   pip install rich requests beautifulsoup4 lxml regex
+   pip install rich requests bs4 lxml re
    ```
 
 **3. Jalankan Aplikasi**
