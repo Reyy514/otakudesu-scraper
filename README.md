@@ -1,4 +1,4 @@
-# 🎌 Otakudesu Scraper v2.0 - Pengalaman Nonton Anime Terbaik di Terminal Anda
+# 🎌 Otakudesu Scraper v1.0 - Pengalaman Nonton Anime Terbaik di Terminal Anda
 
 Selamat datang di **Otakudesu Scraper**, sebuah aplikasi *command-line* yang dirancang untuk memberikan pengalaman terbaik dalam mencari, menjelajahi, dan mendapatkan link unduhan anime favorit Anda langsung dari situs Otakudesu. Dibangun dari awal dengan Python dan dipercantik menggunakan pustaka `rich`, aplikasi ini mengubah terminal Anda menjadi sebuah portal anime yang modern, cepat, dan fungsional.
 
