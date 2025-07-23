@@ -1,8 +1,3 @@
-# otakudesu_cli/main.py
-"""
-File ini adalah titik masuk (entry point) utama untuk aplikasi.
-Tugasnya sederhana: mengimpor kelas CLI dan menjalankannya.
-"""
 from cli import OtakuCLI
 from constants import DATA_DIR, EXPORT_DIR
 
