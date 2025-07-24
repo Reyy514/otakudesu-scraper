@@ -190,7 +190,16 @@ class Scraper:
                 if '/episode/' in href and href not in batch_urls:
                     episodes.append({"title": link.text.strip(), "url": href})
 
-        unique_episodes = sorted(list({ep['url']: ep for ep in episodes}.values()), key=lambda x: x['title'], reverse=True)
+        def get_episode_number(ep_title: str) -> int:
+            match = re.search(r'Episode\s+(\d+)', ep_title, re.IGNORECASE)
+            if match:
+                return int(match.group(1))
+            return 9999
+
+        unique_episodes = sorted(
+            list({ep['url']: ep for ep in episodes}.values()),
+            key=lambda x: get_episode_number(x['title'])
+        )
         unique_batch_links = list({b['url']: b for b in batch_links}.values())
 
         return unique_episodes, unique_batch_links

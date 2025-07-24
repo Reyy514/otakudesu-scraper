@@ -39,7 +39,7 @@ class OtakuCLI:
 
     def _check_connection_and_notify(self):
         clear_screen()
-        self.console.print(create_header(f"{EMOJI_HEADER} OTAKUDESU SCRAPER {EMOJI_HEADER}"))
+        self.console.print(create_header(f"{EMOJI_HEADER} OTAKUDESU SCRAPER v2.0 {EMOJI_HEADER}"))
         with self.console.status("[bold green]Menghubungi server Otakudesu...[/bold green]"):
             if not self.scraper.check_connection():
                 show_message(f"Tidak dapat terhubung ke {BASE_URL}. Periksa koneksi internet Anda.", "Koneksi Gagal", "error")
@@ -76,11 +76,11 @@ class OtakuCLI:
     def main_menu(self):
         while True:
             clear_screen()
-            self.console.print(create_header(f"{EMOJI_HEADER} OTAKUDESU SCRAPER {EMOJI_HEADER}"))
+            self.console.print(create_header(f"{EMOJI_HEADER} OTAKUDESU SCRAPER v2.0 {EMOJI_HEADER}"))
             
             stats = self.cache.get_stats()
             status_text = (
-                f"🌐 [bold]Server Aktif:[/bold] [info]{BASE_URL}[/info]\n"
+                f"🟢 [bold]Server Aktif:[/bold] [info]{BASE_URL}[/info]\n"
                 f"⭐ [bold]Favorit:[/bold] [info]{stats['favorites_count']}[/info] anime\n"
                 f"💾 [bold]Cache Detail:[/bold] [info]{stats['details_cached_count']}[/info] anime"
             )
@@ -90,7 +90,7 @@ class OtakuCLI:
                 "1": f"{EMOJI_SEARCH} Cari Anime",
                 "2": f"{EMOJI_ONGOING} Daftar Anime Ongoing",
                 "3": f"{EMOJI_COMPLETED} Daftar Anime Completed",
-                "4": f"{EMOJI_ALL_ANIME}  Daftar Lengkap Anime (A-Z)",
+                "4": f"{EMOJI_ALL_ANIME} Daftar Lengkap Anime (A-Z)",
                 "5": f"{EMOJI_SCHEDULE} Jadwal Rilis",
                 "6": f"{EMOJI_GENRE} Daftar Genre",
                 "7": f"{EMOJI_FAVORITE} Kelola Favorit",
@@ -578,43 +578,45 @@ class OtakuCLI:
                     show_message("Input tidak valid.", "Error", "error")
 
     def history_and_stats_menu(self):
-        clear_screen()
-        self.console.print(create_header(f"{EMOJI_HISTORY} Riwayat & Statistik"))
+        while True:
+            clear_screen()
+            self.console.print(create_header(f"{EMOJI_HISTORY} Riwayat & Statistik"))
 
-        layout = Layout()
-        layout.split_column(
-            Layout(name="stats", size=8),
-            Layout(name="history")
-        )
+            stats = self.cache.get_stats()
+            stats_text = (
+                f"⭐ [bold]Total Favorit:[/bold] [info]{stats['favorites_count']}[/info]\n"
+                f"💾 [bold]Detail di Cache:[/bold] [info]{stats['details_cached_count']}[/info]\n"
+                f"🕘 [bold]Riwayat Pencarian:[/bold] [info]{stats['search_history_count']}[/info]\n"
+                f"✅ [bold]Episode Ditonton:[/bold] [info]{stats['watched_episodes_count']}[/info]\n"
+                f"📁 [bold]Lokasi Cache:[/bold] [dim]{stats['cache_file_location']}[/dim]"
+            )
+            self.console.print(Panel(stats_text, title="[highlight]📊 Statistik Aplikasi[/highlight]", border_style="cyan"))
 
-        stats = self.cache.get_stats()
-        stats_text = (
-            f"⭐ [bold]Total Favorit:[/bold] [info]{stats['favorites_count']}[/info]\n"
-            f"💾 [bold]Detail di Cache:[/bold] [info]{stats['details_cached_count']}[/info]\n"
-            f"🕘 [bold]Riwayat Pencarian:[/bold] [info]{stats['search_history_count']}[/info]\n"
-            f"✅ [bold]Episode Ditonton:[/bold] [info]{stats['watched_episodes_count']}[/info]\n"
-            f"📁 [bold]Lokasi Cache:[/bold] [dim]{stats['cache_file_location']}[/dim]"
-        )
-        layout["stats"].update(Panel(stats_text, title="[highlight]📊 Statistik Aplikasi[/highlight]", border_style="cyan"))
+            history = self.cache.get_search_history()
+            history_table = Table(title="[highlight]Riwayat Pencarian Terakhir[/highlight]", border_style="accent")
+            history_table.add_column("No.", width=5)
+            history_table.add_column("Query")
+            history_table.add_column("Waktu")
+            for i, item in enumerate(history):
+                history_table.add_row(str(i+1), item['query'], format_timestamp(item['timestamp']))
+            
+            self.console.print(Panel(history_table, border_style="border"))
+            
+            self.console.print()
 
-        history = self.cache.get_search_history()
-        history_table = Table(title="[highlight]Riwayat Pencarian Terakhir[/highlight]", border_style="accent")
-        history_table.add_column("No.", width=5)
-        history_table.add_column("Query")
-        history_table.add_column("Waktu")
-        for i, item in enumerate(history[:10]):
-            history_table.add_row(str(i+1), item['query'], format_timestamp(item['timestamp']))
-        
-        layout["history"].update(Panel(history_table, border_style="border"))
-        
-        self.console.print(layout)
+            if Confirm.ask("[prompt]Apakah Anda ingin membersihkan [bold]riwayat pencarian[/bold]?[/prompt]", default=False):
+                self.cache.clear_search_history()
+                show_message("Riwayat pencarian telah dibersihkan!", "Sukses", "success")
+                time.sleep(1.5)
+                continue
 
-        if Confirm.ask("[prompt]Apakah Anda ingin membersihkan cache detail anime?[/prompt]"):
-            self.cache.clear_anime_details_cache()
-            show_message("Cache detail anime telah dibersihkan!", "Sukses", "success")
-            time.sleep(1.5)
-        else:
-            Prompt.ask("[dim]Tekan Enter untuk kembali...[/dim]")
+            if Confirm.ask("[prompt]Apakah Anda ingin membersihkan cache [bold]detail anime[/bold]?[/prompt]", default=False):
+                self.cache.clear_anime_details_cache()
+                show_message("Cache detail anime telah dibersihkan!", "Sukses", "success")
+                time.sleep(1.5)
+                continue
+            
+            break
 
     def export_data_menu(self):
         clear_screen()
@@ -652,7 +654,7 @@ class OtakuCLI:
                         writer.writeheader()
                         writer.writerows(data_to_export)
                 elif isinstance(data_to_export, dict):
-                    with open(filepath, 'w', newline='', encoding='utf-8') as f:
+                     with open(filepath, 'w', newline='', encoding='utf-8') as f:
                         writer = csv.writer(f)
                         writer.writerow(['key', 'value'])
                         for key, value in data_to_export.items():
